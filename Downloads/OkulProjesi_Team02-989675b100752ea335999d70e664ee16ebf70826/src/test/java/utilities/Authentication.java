@@ -1,0 +1,19 @@
+package utilities;
+
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+
+import static io.restassured.RestAssured.given;
+
+public class Authentication {
+    public static String generateToken(String username, String password){
+        String body = "{\n" +
+                "  \"username\": \""+username+"\",\n" +
+                "  \"password\": \""+password+"\"\n" +
+                "}";
+
+        Response response = given().body(body).contentType(ContentType.JSON).when().post("https://managementonschools.com/app/auth/login");
+        return response.jsonPath().getString("token");
+    }
+
+}
